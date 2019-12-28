@@ -1,6 +1,6 @@
-package com.atguigu.gmall0715.order.service;
+package com.atguigu.gmall0715.service;
 
-import com.atguigu.gmall0715.order.bean.UserAddress;
+import com.atguigu.gmall0715.bean.UserAddress;
 
 import java.util.List;
 

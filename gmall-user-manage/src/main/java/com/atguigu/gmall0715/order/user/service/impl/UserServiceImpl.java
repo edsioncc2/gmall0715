@@ -1,10 +1,10 @@
 package com.atguigu.gmall0715.order.user.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.atguigu.gmall0715.order.bean.UserAddress;
-import com.atguigu.gmall0715.order.bean.UserInfo;
+import com.atguigu.gmall0715.bean.UserAddress;
+import com.atguigu.gmall0715.bean.UserInfo;
 import com.atguigu.gmall0715.order.user.mapper.UserInfoMapper;
-import com.atguigu.gmall0715.order.service.UserService;
+import com.atguigu.gmall0715.service.UserService;
 import com.atguigu.gmall0715.order.user.mapper.UserAddressMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 

@@ -1,4 +1,4 @@
-package com.atguigu.gmall0715.order.bean;
+package com.atguigu.gmall0715.bean;
 
 import lombok.Data;
 
