@@ -39,7 +39,7 @@ public class ManageController {
     //    http://localhost:8082/attrInfoList?catalog3Id=61
     @RequestMapping("attrInfoList")
     public List<BaseAttrInfo> attrInfoList(String catalog3Id,BaseAttrInfo baseAttrInfo){
-        return manageService.getAttrInfoList(baseAttrInfo);
+        return manageService.getAttInfoList(catalog3Id);
     }
     // http://localhost:8082/saveAttrInfo
     // 必须接收前台的数据
