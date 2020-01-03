@@ -18,7 +18,7 @@ import java.io.IOException;
 public class FileUploadController {
     // 对于服务器ip 来讲：都应在应用程序中实现软编码！
     @Value("${fileServer.url}")
-    private String fileUrl; //fileUrl=http://192.168.67.226
+    private String fileUrl; //fileUrl=http://192.168.247.130
 
     // http://localhost:8082/fileUpload
     // springMVC 文件上传

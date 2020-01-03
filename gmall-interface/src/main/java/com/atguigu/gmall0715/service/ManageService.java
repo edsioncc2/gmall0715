@@ -44,7 +44,7 @@ public interface ManageService {
      * @param attrId
      * @return
      */
-     List<BaseAttrValue> getArrValueList(String attrId);
+     List<BaseAttrValue> getAttrValueList(String attrId);
     /**
      * 通过attrId 查询baseAttrInfo
      * @param attrId
@@ -78,7 +78,7 @@ public interface ManageService {
      * @param catalog3Id
      * @return
      */
-    List<BaseAttrInfo>getAttInfoList(String catalog3Id);
+    List<BaseAttrInfo>getAttrInfoList(String catalog3Id);
     /**
      * 通过spuId 查询销售属性集合
      * @param spuId
@@ -90,4 +90,23 @@ public interface ManageService {
      * @param skuInfo
      */
     void saveSkuInfo(SkuInfo skuInfo);
+
+    /**
+     * 根据skuId 查询skuInfo
+     * @param skuId
+     * @return
+     */
+    SkuInfo getSkuInfo(String skuId);
+    /**
+     * 通过skuId ，spuId 查询销售属性集合
+     * @param skuInfo
+     * @return
+     */
+    List<SpuSaleAttr> getSpuSaleAttrListCheckBySku(SkuInfo skuInfo);
+    /**
+     * 根据spuId 查询sku与销售属性值的集合
+     * @param spuId
+     * @return
+     */
+    List<SkuSaleAttrValue> getSkuSaleAttrValueListBySpu(String spuId);
 }

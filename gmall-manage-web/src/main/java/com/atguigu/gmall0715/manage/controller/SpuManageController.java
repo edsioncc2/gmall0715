@@ -33,5 +33,5 @@ public class SpuManageController {
     public void saveSpuInfo(@RequestBody SpuInfo spuInfo){
         manageService.saveSpuInfo(spuInfo);
     }
-    }
+}
 

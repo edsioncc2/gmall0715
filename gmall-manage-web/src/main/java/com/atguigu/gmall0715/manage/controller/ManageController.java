@@ -39,7 +39,7 @@ public class ManageController {
     //    http://localhost:8082/attrInfoList?catalog3Id=61
     @RequestMapping("attrInfoList")
     public List<BaseAttrInfo> attrInfoList(String catalog3Id,BaseAttrInfo baseAttrInfo){
-        return manageService.getAttInfoList(catalog3Id);
+        return manageService.getAttrInfoList(catalog3Id);
     }
     // http://localhost:8082/saveAttrInfo
     // 必须接收前台的数据
@@ -47,6 +47,7 @@ public class ManageController {
     // @RequestBody json --- Object  @ResponseBody Object -- Json
     @RequestMapping("saveAttrInfo")
     public void saveAttrInfo(@RequestBody BaseAttrInfo baseAttrInfo){
+        // 调用服务层：
         manageService.saveAttrInfo(baseAttrInfo);
     }
     // http://localhost:8082/getAttrValueList?attrId=102
