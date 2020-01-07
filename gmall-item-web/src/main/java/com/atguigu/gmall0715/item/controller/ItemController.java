@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.atguigu.gmall0715.bean.SkuInfo;
 import com.atguigu.gmall0715.bean.SkuSaleAttrValue;
 import com.atguigu.gmall0715.bean.SpuSaleAttr;
+import com.atguigu.gmall0715.service.ListService;
 import com.atguigu.gmall0715.service.ManageService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,8 @@ public class ItemController {
      */
      @Reference
      private ManageService manageService;
+    @Reference
+    private ListService listService;
     @RequestMapping("{skuId}.html")
     public String item(@PathVariable String skuId, HttpServletRequest request){
         //获取skuId
@@ -65,6 +68,8 @@ public class ItemController {
         request.setAttribute("spuSaleAttrList",spuSaleAttrList);
         // 保存skuInfo
         request.setAttribute("skuInfo",skuInfo);
+        //热纪录排名
+        listService.incrHostScore(skuId);
         /*返回商品详情页面*/
         return "item";
 

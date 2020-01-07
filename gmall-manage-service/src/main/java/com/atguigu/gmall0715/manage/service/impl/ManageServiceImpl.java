@@ -73,13 +73,20 @@ public class ManageServiceImpl implements ManageService {
     @Autowired
     private RedisUtil redisUtil;
 
-
+    /**
+     * 表示查询一级分类数据
+     * @return
+     */
     @Override
     public List<BaseCatalog1> getCatalog1() {
         // select * from basecatalog1 ;
         return baseCatalog1Mapper.selectAll();
     }
-
+    /**
+     * 通过一级分类Id 查询二级分类数据
+     * @param catalog1Id
+     * @return
+     */
     @Override
     public List<BaseCatalog2> getCatalog2(String catalog1Id) {
         // select * from basecatalog2 where catalog1Id = ?
@@ -87,34 +94,49 @@ public class ManageServiceImpl implements ManageService {
         baseCatalog2.setCatalog1Id(catalog1Id);
         return baseCatalog2Mapper.select(baseCatalog2);
     }
-
+    /**
+     * 通过二级分类对象来查询数据
+     * @param baseCatalog2
+     * @return
+     */
     @Override
     public List<BaseCatalog2> getCatalog2(BaseCatalog2 baseCatalog2) {
         return baseCatalog2Mapper.select(baseCatalog2);
     }
-
+    /**
+     *  通过三级分类属性来查询
+     * @param baseCatalog3
+     * @return
+     */
     @Override
     public List<BaseCatalog3> getCatalog3(BaseCatalog3 baseCatalog3) {
         return baseCatalog3Mapper.select(baseCatalog3);
     }
-
+    /**
+     * 通过三级分类Id 查询
+     * @param baseAttrInfo
+     * @return
+     */
     @Override
     public List<BaseAttrInfo> getAttrInfoList(BaseAttrInfo baseAttrInfo) {
         // select * from baseAttrInfo where catalog3Id = ? 通用mapper 对单张表进行CRUD
 
         return baseAttrInfoMapper.select(baseAttrInfo);
     }
-
+    /**
+     * 保存平台属性，平台属性值
+     * @param baseAttrInfo
+     */
     @Override
     @Transactional
     public void saveAttrInfo(BaseAttrInfo baseAttrInfo) {
         // baseAttrInfo   baseAttrValue
         // 保存| 修改
 
-        if (baseAttrInfo.getId()!=null && baseAttrInfo.getId().length()>0){
+        if (baseAttrInfo.getId() != null && baseAttrInfo.getId().length() > 0) {
             // 修改：
             baseAttrInfoMapper.updateByPrimaryKeySelective(baseAttrInfo);
-        }else {
+        } else {
             // 直接保存平台属性
             baseAttrInfoMapper.insertSelective(baseAttrInfo);
         }
@@ -130,7 +152,7 @@ public class ManageServiceImpl implements ManageService {
         List<BaseAttrValue> attrValueList = baseAttrInfo.getAttrValueList();
         // 判断集合不为空！
         // 先判断对象不为空！然后再判断集合长度！
-        if (attrValueList!=null && attrValueList.size()>0){
+        if (attrValueList != null && attrValueList.size() > 0) {
             for (BaseAttrValue baseAttrValue : attrValueList) {
                 // 平台属性值Id主键自增，平台属性Id baseAttrValue.attrId = baseAttrInfo.id
                 baseAttrValue.setAttrId(baseAttrInfo.getId()); // 获取当前对象主键自增值！
@@ -138,7 +160,11 @@ public class ManageServiceImpl implements ManageService {
             }
         }
     }
-
+    /**
+     * 根据attrId 回显数据
+     * @param attrId
+     * @return
+     */
     @Override
     public List<BaseAttrValue> getAttrValueList(String attrId) {
         // select * from baseAttrValue where attrId = ?
@@ -146,7 +172,11 @@ public class ManageServiceImpl implements ManageService {
         baseAttrValue.setAttrId(attrId);
         return baseAttrValueMapper.select(baseAttrValue);
     }
-
+    /**
+     * 通过attrId 查询baseAttrInfo
+     * @param attrId
+     * @return
+     */
     @Override
     public BaseAttrInfo getBaseAttrInfo(String attrId) {
         //  select * from baseAttrInfo where id = attrId
@@ -155,7 +185,11 @@ public class ManageServiceImpl implements ManageService {
         baseAttrInfo.setAttrValueList(getAttrValueList(attrId));
         return baseAttrInfo;
     }
-
+    /**
+     * 通过三级分类Id 查询
+     * @param catalog3Id
+     * @return
+     */
     @Override
     public List<SpuInfo> getSpuInfoList(String catalog3Id) {
         // SELECT * FROM  spu_info WHERE  catalog3_id=62;
@@ -163,12 +197,18 @@ public class ManageServiceImpl implements ManageService {
         spuInfo.setCatalog3Id(catalog3Id);
         return spuInfoMapper.select(spuInfo);
     }
-
+    /**
+     * 查询所有的销售属性
+     * @return
+     */
     @Override
     public List<BaseSaleAttr> getBaseSaleAttrList() {
         return baseSaleAttrMapper.selectAll();
     }
-
+    /**
+     * 保存spuInfo
+     * @param spuInfo
+     */
     @Override
     @Transactional
     public void saveSpuInfo(SpuInfo spuInfo) {
@@ -181,7 +221,7 @@ public class ManageServiceImpl implements ManageService {
         spuInfoMapper.insertSelective(spuInfo);
         // spuImage
         List<SpuImage> spuImageList = spuInfo.getSpuImageList();
-        if (spuImageList!=null && spuImageList.size()>0){
+        if (spuImageList != null && spuImageList.size() > 0) {
             for (SpuImage spuImage : spuImageList) {
                 // 赋值spuId
                 spuImage.setSpuId(spuInfo.getId());
@@ -190,14 +230,14 @@ public class ManageServiceImpl implements ManageService {
         }
         // 销售属性
         List<SpuSaleAttr> spuSaleAttrList = spuInfo.getSpuSaleAttrList();
-        if (spuSaleAttrList!=null && spuSaleAttrList.size()>0){
+        if (spuSaleAttrList != null && spuSaleAttrList.size() > 0) {
             for (SpuSaleAttr spuSaleAttr : spuSaleAttrList) {
                 spuSaleAttr.setSpuId(spuInfo.getId());
                 spuSaleAttrMapper.insertSelective(spuSaleAttr);
 
                 // 销售属性值
                 List<SpuSaleAttrValue> spuSaleAttrValueList = spuSaleAttr.getSpuSaleAttrValueList();
-                if (spuSaleAttrValueList!=null && spuSaleAttrValueList.size()>0){
+                if (spuSaleAttrValueList != null && spuSaleAttrValueList.size() > 0) {
                     for (SpuSaleAttrValue spuSaleAttrValue : spuSaleAttrValueList) {
                         spuSaleAttrValue.setSpuId(spuInfo.getId());
                         spuSaleAttrValueMapper.insertSelective(spuSaleAttrValue);
@@ -206,13 +246,21 @@ public class ManageServiceImpl implements ManageService {
             }
         }
     }
-
+    /**
+     * 根据spuId 查询列表
+     * @param spuImage
+     * @return
+     */
     @Override
     public List<SpuImage> getSpuImageList(SpuImage spuImage) {
         // select * from spuImage where spuId = ? {spuImage.getSpuId()}
         return spuImageMapper.select(spuImage);
     }
-
+    /**
+     * 通过三级分类Id查询
+     * @param catalog3Id
+     * @return
+     */
     @Override
     public List<BaseAttrInfo> getAttrInfoList(String catalog3Id) {
         // SELECT * FROM base_attr_info bai INNER  JOIN base_attr_value bav ON bai.id = bav.attr_id WHERE bai.catalog3_id=61;
@@ -220,13 +268,20 @@ public class ManageServiceImpl implements ManageService {
 
         return baseAttrInfoMapper.selectBaseAttrInfoListByCatalog3Id(catalog3Id);
     }
-
+    /**
+     * 通过spuId 查询销售属性集合
+     * @param spuId
+     * @return
+     */
     @Override
     public List<SpuSaleAttr> getSpuSaleAttrList(String spuId) {
         // 调用mapper
         return spuSaleAttrMapper.selectSpuSaleAttrList(spuId);
     }
-
+    /**
+     * 保存商品信息
+     * @param skuInfo
+     */
     @Override
     @Transactional
     public void saveSkuInfo(SkuInfo skuInfo) {
@@ -236,7 +291,7 @@ public class ManageServiceImpl implements ManageService {
 //        skuAttrValue // 平台属性
         // 获取出sku与平台属性的关系
         List<SkuAttrValue> skuAttrValueList = skuInfo.getSkuAttrValueList();
-        if (skuAttrValueList!=null&& skuAttrValueList.size()>0){
+        if (skuAttrValueList != null && skuAttrValueList.size() > 0) {
             for (SkuAttrValue skuAttrValue : skuAttrValueList) {
                 skuAttrValue.setSkuId(skuInfo.getId());
                 skuAttrValueMapper.insertSelective(skuAttrValue);
@@ -245,7 +300,7 @@ public class ManageServiceImpl implements ManageService {
 //        skuSaleAttrValue // 销售属性
         // 获取sku与销售属性的集合
         List<SkuSaleAttrValue> skuSaleAttrValueList = skuInfo.getSkuSaleAttrValueList();
-        if (skuSaleAttrValueList!=null && skuSaleAttrValueList.size()>0){
+        if (skuSaleAttrValueList != null && skuSaleAttrValueList.size() > 0) {
             for (SkuSaleAttrValue skuSaleAttrValue : skuSaleAttrValueList) {
                 // skuId 赋值
                 skuSaleAttrValue.setSkuId(skuInfo.getId());
@@ -254,14 +309,18 @@ public class ManageServiceImpl implements ManageService {
         }
 //        skuImage // 图片列表
         List<SkuImage> skuImageList = skuInfo.getSkuImageList();
-        if (skuImageList!=null && skuImageList.size()>0){
+        if (skuImageList != null && skuImageList.size() > 0) {
             for (SkuImage skuImage : skuImageList) {
                 skuImage.setSkuId(skuInfo.getId());
                 skuImageMapper.insertSelective(skuImage);
             }
         }
     }
-
+    /**
+     * 根据skuId 查询skuInfo
+     * @param skuId
+     * @return
+     */
     @Override
     public SkuInfo getSkuInfo(String skuId) {
         return getSkuInfoRedisson(skuId);
@@ -275,7 +334,7 @@ public class ManageServiceImpl implements ManageService {
             // 获取Jedis
             jedis = redisUtil.getJedis();
             // 定义key
-            String skuKey = ManageConst.SKUKEY_PREFIX+skuId+ManageConst.SKUKEY_SUFFIX;
+            String skuKey = ManageConst.SKUKEY_PREFIX + skuId + ManageConst.SKUKEY_SUFFIX;
 
             String skuJson = jedis.get(skuKey);
 
@@ -287,7 +346,7 @@ public class ManageServiceImpl implements ManageService {
 //            }
 
 
-            if(skuJson==null){
+            if (skuJson == null) {
                 // redisson 加锁，走数据库并放入缓存！
                 Config config = new Config();
                 // 设置redis 节点
@@ -305,23 +364,23 @@ public class ManageServiceImpl implements ManageService {
                     try {
                         // 业务逻辑
                         // 缓存中没有数据 穿透
-                        skuInfo =  getSkuInfoDB(skuId); // skuInfo = null
+                        skuInfo = getSkuInfoDB(skuId); // skuInfo = null
                         // 方案二：
-                        if (skuInfo==null){
-                            jedis.setex(skuKey,ManageConst.SKUKEY_TIMEOUT, "");  // key value = null
+                        if (skuInfo == null) {
+                            jedis.setex(skuKey, ManageConst.SKUKEY_TIMEOUT, "");  // key value = null
                         }
                         // 将数据放入缓存
-                        jedis.setex(skuKey,ManageConst.SKUKEY_TIMEOUT, JSON.toJSONString(skuInfo));
+                        jedis.setex(skuKey, ManageConst.SKUKEY_TIMEOUT, JSON.toJSONString(skuInfo));
                         return skuInfo;
                     } finally {
                         // 解锁！
                         lock.unlock();
                     }
                 }
-            }else {
+            } else {
                 // 缓存有数据
                 // skuJson -- 转换为对象
-                skuInfo = JSON.parseObject(skuJson,SkuInfo.class);
+                skuInfo = JSON.parseObject(skuJson, SkuInfo.class);
                 return skuInfo;
             }
 
@@ -329,7 +388,7 @@ public class ManageServiceImpl implements ManageService {
             e.printStackTrace();
         } finally {
             // 关闭缓存
-            if (jedis!=null){
+            if (jedis != null) {
                 jedis.close();
             }
         }
@@ -343,53 +402,53 @@ public class ManageServiceImpl implements ManageService {
             // 获取Jedis、
             jedis = redisUtil.getJedis();
             // 定义key
-            String skuKey = ManageConst.SKUKEY_PREFIX+skuId+ManageConst.SKUKEY_SUFFIX;
+            String skuKey = ManageConst.SKUKEY_PREFIX + skuId + ManageConst.SKUKEY_SUFFIX;
 
             String skuJson = jedis.get(skuKey);
-            if (skuJson==null){
+            if (skuJson == null) {
                 // 没有数据
                 System.out.println("缓存中没有数据：");
                 // 准备加锁！  set k1 v1 px 10000 nx
                 // 定义锁的key sku:skuId:lock  k1
-                String skuLockKey = ManageConst.SKUKEY_PREFIX+skuId+ManageConst.SKULOCK_SUFFIX;
+                String skuLockKey = ManageConst.SKUKEY_PREFIX + skuId + ManageConst.SKULOCK_SUFFIX;
 
                 // 定义key 锁定的值  v1
-                String token = UUID.randomUUID().toString().replace("-","");
+                String token = UUID.randomUUID().toString().replace("-", "");
 
                 // 执行加锁命令
                 String lockKey = jedis.set(skuLockKey, token, "NX", "PX", ManageConst.SKULOCK_EXPIRE_PX);
-                if ("OK".equals(lockKey)){
+                if ("OK".equals(lockKey)) {
                     System.out.println("上锁成功！");
                     // 从db 中数据并放入缓存！
                     // 缓存中没有数据
-                    skuInfo =  getSkuInfoDB(skuId);
+                    skuInfo = getSkuInfoDB(skuId);
                     // 将数据放入缓存
-                    jedis.setex(skuKey,ManageConst.SKUKEY_TIMEOUT, JSON.toJSONString(skuInfo));
+                    jedis.setex(skuKey, ManageConst.SKUKEY_TIMEOUT, JSON.toJSONString(skuInfo));
 
                     // 解锁：
                     // jedis.del(skuKey); lua 脚本：
-                    String script ="if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
-                    jedis.eval(script, Collections.singletonList(skuLockKey),Collections.singletonList(token));
+                    String script = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
+                    jedis.eval(script, Collections.singletonList(skuLockKey), Collections.singletonList(token));
 
                     return skuInfo;
-                }else {
+                } else {
                     // 说明里面有人！等待
                     Thread.sleep(1000);
 
                     return getSkuInfo(skuId);
                 }
 
-            }else {
+            } else {
                 // 缓存中有数据！
                 // skuJson -- 转换为对象
-                skuInfo = JSON.parseObject(skuJson,SkuInfo.class);
+                skuInfo = JSON.parseObject(skuJson, SkuInfo.class);
                 return skuInfo;
             }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             // 关闭缓存
-            if (jedis!=null){
+            if (jedis != null) {
                 jedis.close();
             }
         }
@@ -403,21 +462,60 @@ public class ManageServiceImpl implements ManageService {
         // select * from skuImage where skuId = skuId
         SkuImage skuImage = new SkuImage();
         skuImage.setSkuId(skuId);
-        skuInfo.setSkuImageList( skuImageMapper.select(skuImage));
+        skuInfo.setSkuImageList(skuImageMapper.select(skuImage));
         // skuAttrValue
         SkuAttrValue skuAttrValue = new SkuAttrValue();
         skuAttrValue.setSkuId(skuId);
         skuInfo.setSkuAttrValueList(skuAttrValueMapper.select(skuAttrValue));
         return skuInfo;
     }
-
+    /**
+     * 通过skuId ，spuId 查询销售属性集合
+     * @param skuInfo
+     * @return
+     */
     @Override
     public List<SpuSaleAttr> getSpuSaleAttrListCheckBySku(SkuInfo skuInfo) {
-        return spuSaleAttrMapper.selectSpuSaleAttrListCheckBySku(skuInfo.getId(),skuInfo.getSpuId());
+        return spuSaleAttrMapper.selectSpuSaleAttrListCheckBySku(skuInfo.getId(), skuInfo.getSpuId());
     }
-
+    /**
+     * 根据spuId 查询sku与销售属性值的集合
+     * @param spuId
+     * @return
+     */
     @Override
     public List<SkuSaleAttrValue> getSkuSaleAttrValueListBySpu(String spuId) {
         return skuSaleAttrValueMapper.selectSkuSaleAttrValueListBySpu(spuId);
+    }
+    /**
+     * 显示平台属性，平台的属性值
+     * @param attrValueIdList
+     * @return
+     */
+    @Override
+    public List<BaseAttrInfo> getAttrInfoList(List<String> attrValueIdList) {
+        // 调用mapper：
+        // SELECT * FROM  base_attr_info bai INNER  JOIN base_attr_value bav ON bai.id=bav.attr_id WHERE bav.id in (83,120,13);
+        /*
+         方案：
+         1：attrValueIdList
+            应该在xxxMapper.xml
+                使用mybatis 中的动态标签库！<foreach item="" collection=>
+
+                <select id="selectPostIn" resultType="domain.blog.Post">
+                 SELECT * FROM  base_attr_info bai INNER  JOIN base_attr_value bav ON bai.id=bav.attr_id WHERE bav.id in
+                  <foreach item="item" index="index" collection="list"
+                      open="(" separator="," close=")">
+                        #{item} (83,120,13);
+                  </foreach>
+                </select>
+
+         2：83,120,13
+            SELECT * FROM  base_attr_info bai INNER  JOIN base_attr_value bav ON bai.id=bav.attr_id WHERE bav.id in (83,120,13);
+          */
+        // 将集合变成字符串！
+        String attrValueIds  = org.apache.commons.lang3.StringUtils.join(attrValueIdList.toArray(), ",");
+        System.out.println(attrValueIds+"传入的字符串");
+        return baseAttrInfoMapper.selectAttrInfoListByIds(attrValueIds);
     }
 }
