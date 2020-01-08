@@ -1,4 +1,4 @@
-package com.atguigu.gmall0715.order.user.controller;
+package com.atguigu.gmall0715.user.controller;
 
 import com.atguigu.gmall0715.bean.UserInfo;
 import com.atguigu.gmall0715.service.UserService;

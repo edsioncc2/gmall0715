@@ -7,6 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 //页面资源导入 readis用
 @ComponentScan(basePackages = "com.atguigu.gmall0715")
+
 public class GmallItemWebApplication {
 
 	public static void main(String[] args) {

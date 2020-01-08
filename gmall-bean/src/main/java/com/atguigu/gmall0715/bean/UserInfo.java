@@ -6,8 +6,10 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.io.Serializable;
+
 @Data
-public class UserInfo {
+public class UserInfo implements Serializable {
     //属性
     @Id//表示主键
     @Column//字段

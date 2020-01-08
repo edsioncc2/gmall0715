@@ -15,4 +15,18 @@ public interface UserService {
      * 根据用户Id查询用户的地址列表
      */
     List<UserAddress> findUserAddressByUserId(String userId);
+    /**
+     * 登录
+     * @param userInfo
+     * @return
+     */
+
+    UserInfo login(UserInfo userInfo);
+    /**
+     * 解密token 获取userId
+     * @param userId
+     * @return
+     */
+
+    UserInfo verfiy(String userId);
 }

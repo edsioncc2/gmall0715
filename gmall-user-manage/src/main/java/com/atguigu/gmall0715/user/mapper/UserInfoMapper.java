@@ -1,4 +1,4 @@
-package com.atguigu.gmall0715.order.user.mapper;
+package com.atguigu.gmall0715.user.mapper;
 
 
 import com.atguigu.gmall0715.bean.UserInfo;
